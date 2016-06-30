@@ -6,7 +6,7 @@
 
 ##读立写生
 
-我是一个好学生，博客：[agoodstu.com](agoodstu.com)
+我是一个好学生，博客：[agoodstu.com](http://agoodstu.com)
 
 ##坚信
 
