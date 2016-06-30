@@ -1,15 +1,15 @@
 # Site settings
-title: 读立写生
+title: 知行合一
 header-img: "img/green.jpg"
 tagline: "cn"  
-description: "一个好学生|读而立"  
+description: "一个好学生|知行合一，止于至善"  
 baseurl: ""
 url: "http://agoodstu"  
 
 # About/contact
 owner: 
-  name: " CnFeat"
-  email: CnFeat@gmail.com
+  name: " 一个好学生"
+  email: 18255813991@163.com
   bio: "写就是写的报酬"
 
 # Data
