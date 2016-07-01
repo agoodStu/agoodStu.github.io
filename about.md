@@ -7,7 +7,7 @@ header-img: "img/green.jpg"
 
 
 <center>
-    <img src="http://o9m8cmsd5.bkt.clouddn.com/agoodstu-s.jpg">
+    <img src="http://o9m8cmsd5.bkt.clouddn.com/agoodstu-yellow-s.jpg">
 </center>
 
 我是一个好学生，这是我的个人博客。
