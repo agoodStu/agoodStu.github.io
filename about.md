@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "About"
-description: "知行合一|止于至善 "
+description: "知行合一 | 止于至善 "
 header-img: "img/green.jpg"
 ---
 
 
 <center>
-    ![](http://o9m8cmsd5.bkt.clouddn.com/agoodstu-s.jpg)
+    <img src="http://o9m8cmsd5.bkt.clouddn.com/agoodstu-s.jpg">
 </center>
 
 我是一个好学生，这是我的个人博客。
