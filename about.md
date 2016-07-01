@@ -7,7 +7,7 @@ header-img: "img/green.jpg"
 
 
 <center>
-    <p><img src="http://o9m8cmsd5.bkt.clouddn.com/agoodstu.jpg"  width=112px height=112px align="center"></p>
+    ![](http://o9m8cmsd5.bkt.clouddn.com/agoodstu-s.jpg)
 </center>
 
 我是一个好学生，这是我的个人博客。
