@@ -7,7 +7,7 @@ header-img: "img/green.jpg"
 
 
 <center>
-    <p><img src="http://comic.hangzhou.com.cn/pic/content/attachement/jpg/site2/20130410/001676c20d4f12cf3d8130.jpg"  width=112px height=112px align="center"></p>
+    <p><img src="http://o9m8cmsd5.bkt.clouddn.com/agoodstu.jpg"  width=112px height=112px align="center"></p>
 </center>
 
 我是一个好学生，这是我的个人博客。
