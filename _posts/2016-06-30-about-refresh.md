@@ -3,7 +3,7 @@ layout: post
 title: 由“刷刷刷”说起
 date: 2016-06-30
 categories: blog
-tags: [写作，社交网络]
+tags: [社交网络]
 
 ---
 
