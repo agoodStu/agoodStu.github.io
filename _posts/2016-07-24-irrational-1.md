@@ -4,7 +4,7 @@ layout: post
 title: 人类的阿喀琉斯之踵1—个案的魔力
 date: 2016-07-24
 categories: blog
-tags: [思维] [心理学] [科学] [理性]
+tags: [理性]
 
 ---
 
