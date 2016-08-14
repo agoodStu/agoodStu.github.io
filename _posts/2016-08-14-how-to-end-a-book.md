@@ -47,7 +47,7 @@ tags: [读书,时间记录]
 
 ![pic3](http://o9m8cmsd5.bkt.clouddn.com/2016-08-14-blog-3.jpg)
 
-**电脑端：[atimelogger （点击可加载官网地址）](http://atimelogger.cn/)**
+**电脑端：[rescuetime （点击可加载官网地址）](https://www.rescuetime.com/)**
 
 ![pic4](http://o9m8cmsd5.bkt.clouddn.com/2016-08-14-blog-4.jpg)
 
