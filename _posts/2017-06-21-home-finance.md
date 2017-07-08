@@ -1,7 +1,7 @@
 ---
 
 layout: post
-title: 由“刷刷刷”说起
+title: 财务决策中的心理学与神经科学
 date: 2017-06-21
 categories: blog
 tags: [心理学]
