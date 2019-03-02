@@ -8,7 +8,7 @@ url: "http://agoodstu"
 
 # About/contact
 owner: 
-  name: " 一个好学生|叶纪杉"
+  name: " 一个好学生 | 叶纪杉"
   email: agoodstu@gmail.com
   bio: "写就是写的报酬"
 
@@ -43,7 +43,7 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      author: "一个好学生"
+      author: "一个好学生 | 叶纪杉"
       header-img: "img/green.jpg" # We don't want posts without a header image, that whould mean white on white
 
 # Comments 
