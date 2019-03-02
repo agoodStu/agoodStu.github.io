@@ -46,13 +46,6 @@ defaults:
       author: "一个好学生 | 叶纪杉"
       header-img: "img/green.jpg" # We don't want posts without a header image, that whould mean white on white
 
-# Comments 
-comments :
-  provider : duoshuo
-  duoshuo :
-    short_name : 
-  disqus :
-      short_name : 
 
 # Analytics and webmaster tools stuff goes here
 google_analytics: 
