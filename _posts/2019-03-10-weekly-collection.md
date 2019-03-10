@@ -3,7 +3,7 @@ layout: post
 title: 一周集锦
 date: 2019-03-10
 categories: blog
-tags: [随笔] [笔记]
+tags: [随笔，笔记]
 ---
 
 ## 一周集锦
