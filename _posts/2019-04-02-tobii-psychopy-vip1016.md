@@ -12,7 +12,7 @@ tags: [1016, 眼动仪, 实验]
 
 # 实验 
 
-###显示器
+### 显示器
 
 目前我们实验室常用的眼动仪为Tobii Pro Tx300，采样率为300Hz。关于眼动仪的更多信息可以点击[Tobii Pro Tx300官网](<https://www.tobiipro.com/product-listing/tobii-pro-tx300/>)。参考官网给出的数据，这款眼动仪的垂直同步率（Vertical Sync Frequencey）为**49~75**Hz，水平同步率（Horizontal Sync Frequency）为**54.2~83.8kHz**。显示器尺寸是23英寸，最大屏幕分辨率为1920✖1080，是一块TFT的LCD显示器。
 
@@ -34,7 +34,7 @@ tags: [1016, 眼动仪, 实验]
 
 心理学的视觉刺激呈现时间较短，一般在几百毫秒和几秒之间。如果我们需要向被试呈现一个120ms的图片，显示器刷新频率为60Hz。在实际运行中，刺激的呈现时间则在116.7毫秒（7帧）和133.8毫秒（8帧）之间。
 
-###帧数控制
+### 帧数控制
 
 #### Psychopy
 
@@ -71,26 +71,44 @@ tags: [1016, 眼动仪, 实验]
 >#setup stimulus
 >win=visual.Window([400,400])
 >gabor = visual.GratingStim(win, tex='sin', mask='gauss', sf=5,
->    name='gabor', autoLog=False)
+>name='gabor', autoLog=False)
 >fixation = visual.GratingStim(win, tex=None, mask='gauss', sf=0, size=0.02,
->    name='fixation', autoLog=False)
+>name='fixation', autoLog=False)
 >
 >clock = core.Clock()
 >#let's draw a stimulus for 200 frames, drifting for frames 50:100
 >for frameN in range(200):#for exactly 200 frames
->    if 10 <= frameN < 150:  # present fixation for a subset of frames
->        fixation.draw()
->    if 50 <= frameN < 100:  # present stim for a different subset
->        gabor.setPhase(0.1, '+')  # increment by 10th of cycle
->        gabor.draw()
->    win.flip()
+>if 10 <= frameN < 150:  # present fixation for a subset of frames
+>   fixation.draw()
+>if 50 <= frameN < 100:  # present stim for a different subset
+>   gabor.setPhase(0.1, '+')  # increment by 10th of cycle
+>   gabor.draw()
+>win.flip()
 >```
 >
 >代码链接：https://www.psychopy.org/coder/codeStimuli.html
 
-##### 补上Builder模式下，关于刺激呈现方式的区别
+### 用帧数呈现
 
-***
+在设计实验和汇报结果的时候，可以以毫秒为单位。但为了更精确的呈现，我们编程时则需要用帧数呈现。两者之间的转换很简单。假设我们显示器的刷新率为60Hz，需要呈现一个刺激200ms。1秒是1000ms，200ms即1/5秒。那么这个刺激需要呈现60/5 = 12帧。
+
+在psychopy（1.9.6版本）的Builder模式下，时间设置如下：
+
+| 类型      | Start（开始时间）                                  |
+| --------- | -------------------------------------------------- |
+| times     | 以秒为单位，刺激开始呈现时间                       |
+| frameN    | 以帧为单位，刺激开始呈现时间                       |
+| condition | 条件呈现，比如在某个刺激呈现到一半后呈现另一个刺激 |
+
+| 类型              | Stop（结束时间）                     |
+| ----------------- | ------------------------------------ |
+| duration (s)      | 持续时间（秒为单位），如呈现200ms    |
+| duration (frames) | 持续时间（帧为单位），如呈现12帧     |
+| time (s)          | 呈现到哪个时间，如从200ms呈现到500ms |
+| frame N           | 呈现到哪帧，如从12帧呈现到20帧       |
+| condition         | 条件结束                             |
+
+
 
 # 参考链接
 
@@ -106,3 +124,4 @@ tags: [1016, 眼动仪, 实验]
 
 - 二〇一九年四月二日 22:35:50，首次更新
 - 二〇一九年四月三日 15:30:10，更新
+- 二〇一九年四月十四日 11:35:27，更新帧数呈现
