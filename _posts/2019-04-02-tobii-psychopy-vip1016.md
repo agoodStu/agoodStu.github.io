@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 1016-VIP-LAB打怪指南
+title: 1016-VIP-LAB的轮子
 date: 2019-04-02
 categories: blog
 tags: [1016, 眼动仪, 实验]
