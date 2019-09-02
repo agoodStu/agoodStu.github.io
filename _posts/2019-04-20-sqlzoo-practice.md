@@ -6,7 +6,7 @@ categories: blog
 tags: [sql, sqlzoo]
 ---
 
-#### 1 SELECT within SELECT
+### 1 SELECT within SELECT
 
 #### List each country **name** where the **population** is larger than that of 'Russia'.
 
@@ -304,7 +304,7 @@ FROM
 
 #### List each subject - just once.
 
-```sql
+```mysql
 SELECT DISTINCT
 	subject
 FROM
@@ -412,6 +412,216 @@ GROUP BY
 	winner 
 HAVING
 	COUNT( winner ) >= 2
+```
+
+#### 4. SELECT from Nobel Tutorial
+
+#### Change the query shown so that it displays Nobel prizes for 1950.
+
+```mysql
+SELECT 
+	yr, 
+	subject, 
+	winner
+FROM 
+	nobel
+WHERE 
+	yr = 1950
+```
+
+#### Show who won the 1962 prize for Literature.
+
+```mysql
+SELECT 
+	winner
+FROM 
+	nobel
+WHERE 
+	yr = 1962
+AND 
+	subject = 'Literature'
+```
+
+
+
+#### Show the year and subject that won 'Albert Einstein' his prize.
+
+```mysql
+SELECT 
+	yr, 
+	subject
+FROM 
+	nobel
+WHERE 
+	winner = 'Albert Einstein'
+```
+
+
+
+#### Give the name of the 'Peace' winners since the year 2000, including 2000.
+
+```mysql
+SELECT 
+	winner
+FROM 
+	nobel
+WHERE 
+	yr >= 2000 
+AND 
+	subject = 'Peace'
+```
+
+
+
+#### Show all details (yr, subject, winner) of the Literature prize winners for 1980 to 1989 inclusive.
+
+```mysql
+SELECT 
+	*
+FROM 
+	nobel
+WHERE 
+	subject = 'Literature'
+AND 
+	(yr >= 1980 AND yr <= 1989)
+```
+
+
+
+#### Show all details of the presidential winners:
+
+#### Theodore Roosevelt
+Woodrow Wilson
+Jimmy Carter
+Barack Obama
+
+```mysql
+SELECT 
+	* 
+FROM 
+	nobel
+WHERE 
+	winner IN ('Theodore Roosevelt', 'Woodrow Wilson', 'Jimmy Carter', 'Barack Obama')
+```
+
+
+
+#### Show the winners with first name John.
+
+```mysql
+SELECT 
+	winner
+FROM 
+	nobel
+WHERE 
+	winner LIKE 'John%'
+```
+
+
+
+#### Show the year, subject, and name of Physics winners for 1980 together with the Chemistry winners for 1984.
+
+```mysql
+SELECT 
+	* 
+FROM 
+	nobel
+WHERE 
+	(yr = 1980 AND subject = 'Physics')
+OR 
+	(yr = 1984 AND subject = 'Chemistry')
+```
+
+
+
+#### Show the year, subject, and name of winners for 1980 excluding Chemistry and Medicine.
+
+```mysql
+SELECT 
+	*
+FROM 
+	nobel
+WHERE 
+	yr = 1980 
+AND 
+	subject NOT IN ('Chemistry', 'Medicine')
+```
+
+
+
+#### Show year, subject, and name of people who won a 'Medicine' prize in an early year (before 1910, not including 1910) together with winners of a 'Literature' prize in a later year (after 2004, including 2004).
+
+```mysql
+SELECT 
+	*
+FROM 
+	nobel
+WHERE 
+	(yr < 1910 AND subject = 'Medicine')
+OR 
+	(yr >= 2004 AND subject = 'Literature')
+```
+
+
+
+#### Find all details of the prize won by PETER GRÜNBERG. 
+
+```mysql
+SELECT 
+	*
+FROM 
+	nobel
+WHERE 
+	winner = 'PETER GRÜNBERG'  
+/*
+Ü这个符号怎么打？按住ALT键，通过数字小键盘依次按‘0220’即可。
+*/
+```
+
+
+
+#### Find all details of the prize won by EUGENE O'NEILL
+
+```mysql
+SELECT 
+	* 
+FROM 
+	nobel
+WHERE 
+	winner = 'EUGENE O\'NEILL'
+```
+
+
+
+#### Knights in order. List the winners, year and subject where the winner starts with Sir. Show the the most recent first, then by name order.
+
+```mysql
+SELECT 
+	winner, 
+	yr, 
+	subject
+FROM 
+	nobel
+WHERE 
+	winner LIKE 'Sir%'
+ORDER BY 
+	yr DESC, winner
+```
+
+
+
+#### Show the 1984 winners and subject ordered by subject and winner name; but list Chemistry and Physics last.
+
+```mysql
+SELECT 
+	winner, 
+	subject
+FROM 
+	nobel
+WHERE 
+	yr=1984
+ORDER BY subject IN ('Chemistry','Physics'), subject, winner
+-- 要先保证'Chemistry','Physics'在后面，所以优先排序
 ```
 
 
