@@ -26,7 +26,62 @@ tags: [数据分析实战]
 
 导入成功。
 
-### 分析
+### 数据预处理
+
+#### 时间戳
+
+TimeStamp列用的是UnixTime。我们做个简单的查询：
+
+```mysql
+SELECT
+	min( TimeStamp),
+	MAX( TimeStamp ) 
+FROM
+	userbehavior2017
+```
+
+结果如下：
+
+|min(TIMESTAMP)|	MAX(TIMESTAMP)|
+|-|-|
+|-2134949234|	2122867355|
+
+UnixTime是以1970年为起始时间，难道我们穿越了？让我们看一下一共又多少个TimeStamp为负值：
+
+```mysql
+SELECT
+	COUNT( TIMESTAMP ) 
+FROM
+	userbehavior2017 
+WHERE
+	TIMESTAMP < 0
+```
+
+结果共有38个值。当我们选择TimeStamp大于0的最早时间呢？
+
+```mysql
+SELECT
+	FROM_UNIXTIME( min( TIMESTAMP ), '%Y-%M-%D' ) 
+FROM
+	userbehavior2017 
+WHERE
+	TIMESTAMP > 0
+```
+
+返回结果是`1970-January-1st`，也就是UnixTime开始的时间。
+
+同样，我们看下最大的时间是多少？
+
+```
+SELECT
+	FROM_UNIXTIME( max( TIMESTAMP ), '%Y-%M-%D' ) 
+FROM
+	userbehavior2017
+```
+
+返回结果是`2037-April-9th`，好吧，还没有到达2038年1月19日3时14分08秒。
+
+当不管是最小时间还是最大时间，都不是我们想要的数据。根据数据源描述，数据集包含了2017年11月25日至2017年12月3日之间的数据。我们可以新建一个在这个时间范围内的视图。
 
 ## Update Log
 
