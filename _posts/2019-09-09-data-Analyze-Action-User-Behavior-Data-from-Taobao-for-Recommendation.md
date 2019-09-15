@@ -8,11 +8,7 @@ tags: [数据分析实战]
 
 ## 数据分析实战——User Behavior Data from Taobao for Recommendation [天池]
 
-> UserBehavior是阿里巴巴提供的一个淘宝用户行为数据集，用于隐式反馈推荐问题的研究。
->
-> 下载地址：[戳这里](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649&userId=1)
-
-### 数据导入 
+### 0 数据导入 
 
 解压后的数据有3.4G，这样基本就告别EXCEL了。所以可以加载到SQL里面观察一下。
 
@@ -20,13 +16,85 @@ tags: [数据分析实战]
 
 关于改权限的方式，网上有很多教程，可以参考。我说一下我碰到的坑。目前我使用的SQL是8.0.16解压版。网上有些教程说，可以改`C:\ProgramData\MySQL`下面的`my.ini`文件。但这个版本在C盘下没有这个文件。那么需要改的就是安装目录下的配置文件。在`[mysqld]`下增加`secure_file_priv=''`语句。这个一个**大坑**是：安装目录下的配置文件名必须为`my.ini`，如果为`my-default.ini`则无效。之后重启MySQL服务即可。
 
-通过`LOAD DATA INFILE`语句将数据文件添加到之前建立的表。
+通过下面语句将数据文件添加到之前建立的表。
 
-![1568121500273](C:\Users\agood\AppData\Roaming\Typora\typora-user-images\1568121500273.png)
+```mysql
+USE 数据库名称;
+LOAD DATA INFILE '文件名称'
+INTO TABLE 表名
+FIELDS TERMINATED BY ','  -- csv文件
+```
 
-导入成功。
+### 2 数据理解
 
-### 数据预处理
+#### 数据源
+
+UserBehavior是阿里巴巴提供的一个淘宝用户行为数据集，用于隐式反馈推荐问题的研究。
+
+下载地址：[戳这里](https://tianchi.aliyun.com/dataset/dataDetail?dataId=649&userId=1)
+
+#### 数据维度
+
+| 维度         | 数量        |
+| ------------ | ----------- |
+| 用户数量     | 987,994     |
+| 商品数量     | 4,162,024   |
+| 商品类目数量 | 9,439       |
+| 所有行为数量 | 100,150,807 |
+
+#### 
+
+### 数据清洗
+
+#### 数据选择
+
+选取全部数据
+
+#### header重命名
+
+原始数据不包含header，所以我们通过sql新建立一个表格，共6个字段
+
+#### 设计表
+
+| 字段名       | 类型 | 键    |
+| ------------ | ---- | ----- |
+| UserID       | int  | True  |
+| ItemID       | int  | True  |
+| CategoryID   | int  | True  |
+| BehaviorType | var  | False |
+| TimeStamps   | int  | True  |
+
+#### 去重
+
+这个数据集共有100,150,807条记录，这个数据量就告别excel了。但在导入的过程中，我们发现了重复记录，所以只能使用pandas来处理了。对于过于大的数据，我们可以考虑分块读取，通过pd.read_csv(iterator=True)开启迭代读取，通过get_chunk()读取数据。
+
+在最后的连接过程中，还是出现了MemoryError的错误。😭。我的内存是8G，只好含泪修改虚拟内存了（通过实验发现，最大虚拟内存开到10G就不会出现MemoryError）。Python代码如下。
+
+```python
+import pandas as pd
+
+reader = pd.read_csv('UserBehavior.csv', iterator=True)
+
+loop = True
+chunk_size = 100000  #chunk_size
+chunks = []
+
+while loop:
+    try:
+        chunk = reader.get_chunk(chunk_size)
+        chunks.append(chunk)
+    except:
+        loop = False
+        print('Iteration is stopped!')
+
+df = pd.concat(chunks, ignore_index=True)
+df2 = df.drop_duplicates()
+# 去重前的数据维度
+print(df.shape)  # (100150807, 5)
+# 去重后的数据维度
+print(df2.shape)  # (100150758, 5)
+# 49行的重复值，差点让我崩溃，我恨。
+```
 
 #### 时间戳
 
@@ -87,3 +155,4 @@ FROM
 
 - 2019-09-09 22:18:12，首次更新
 - 2019-09-10 21:31:31，更新数据导入部分
+- 2019年9月15日17:57:02，更新数据清洗部分
