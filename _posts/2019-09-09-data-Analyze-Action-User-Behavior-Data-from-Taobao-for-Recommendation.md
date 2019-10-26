@@ -438,6 +438,58 @@ ORDER BY
 
 晚间从19点开始，用户各种行为开始上升，至21点左右达到一天的最高峰。有研究称，**夜间更容易冲动消费**（待我哪天找下参考文献）。可以在这一时间段中，对用户进行更加精准的推送和更大的优惠，如21点开始抢购等。
 
+##### RMF模型
+
+**R**是指最近一次消费，**M**指消费金额，**F**指频率。由于本数据集中没有消费金额数据，所以只分析R和F。
+
+**R—最近一次消费**
+
+一般来说，最近一次消费越近的用户，价值越高。所以，设立以下评分标准：
+
+- 0~2天，4分
+- 3~4天，3分
+- 5~7天，2分
+- 7天以上，1分
+
+```mysql
+SELECT
+	UserID,
+	(
+	CASE
+			
+			WHEN tempDate > 7 THEN
+			1 
+			WHEN tempDate BETWEEN 5 
+			AND 7 THEN
+				2 
+				WHEN tempDate BETWEEN 3 
+				AND 4 THEN
+					3 
+					WHEN tempDate BETWEEN 1 
+					AND 2 THEN
+						4 ELSE NULL 
+					END 
+					) AS recentScore 
+				FROM
+					( SELECT UserID, DATEDIFF( '2017-12-03', MAX( dates )) AS tempDate FROM tb2017 WHERE BehaviorType = 'buy' GROUP BY UserID ) AS temp 
+			ORDER BY
+	recentScore DESC
+```
+
+结果放几个吧：
+
+|UserID|	recentScore|
+|-|-|
+|1012373|	4|
+|1012376|	4|
+|1012384|	4|
+
+**F——交易频率**
+
+一段时间内交易频率越高，说明用户需要越大，黏性高。下面将用户消费频率从大到小排序：
+
+
+
 ## Update Log
 
 - 2019-09-09 22:18:12，首次更新
