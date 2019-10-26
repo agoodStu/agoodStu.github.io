@@ -488,6 +488,121 @@ SELECT
 
 一段时间内交易频率越高，说明用户需要越大，黏性高。下面将用户消费频率从大到小排序：
 
+```mysql
+SELECT
+	UserID,
+	count( ItemID ) AS freq 
+FROM
+	tb2017 
+WHERE
+	BehaviorType = 'buy' 
+GROUP BY
+	UserID 
+ORDER BY
+	freq DESC
+```
+
+最多的购买刺激为59次，最少的为1次，差距为58次，划分为4档。
+
+- 0-15，1分
+- 15-30，2分
+- 30-45，3分
+- 45-60，4分
+
+```mysql
+SELECT
+	UserID,
+	(
+	CASE
+			
+			WHEN freq >= 45 THEN
+			4 
+			WHEN freq >= 30 THEN
+			3 
+			WHEN freq >= 15 THEN
+			2 
+			WHEN freq >= 0 THEN
+			1 ELSE NULL 
+		END 
+		) AS freqScore 
+	FROM
+		( SELECT UserID, count( ItemID ) AS freq FROM tb2017 WHERE BehaviorType = 'buy' GROUP BY UserID ) AS temp 
+ORDER BY
+	freqScore DESC
+```
+
+**M——交易金额**由于本数据集中不包含该类数据，所以不分析
+
+将两种查询合并，代码如下：
+
+```mysql
+SELECT
+	R.UserID,
+	R.recentScore,
+	F.freqScore 
+FROM
+	(
+	SELECT
+		UserID,
+		(
+		CASE
+				
+				WHEN tempDate > 7 THEN
+				1 
+				WHEN tempDate BETWEEN 5 
+				AND 7 THEN
+					2 
+					WHEN tempDate BETWEEN 3 
+					AND 4 THEN
+						3 
+						WHEN tempDate BETWEEN 1 
+						AND 2 THEN
+							4 ELSE NULL 
+						END 
+						) AS recentScore 
+					FROM
+						( SELECT UserID, DATEDIFF( '2017-12-03', MAX( dates )) AS tempDate FROM tb2017 WHERE BehaviorType = 'buy' GROUP BY UserID ) AS temp 
+					ORDER BY
+						recentScore DESC 
+					) AS R
+					INNER JOIN (
+					SELECT
+						UserID,
+						(
+						CASE
+								
+								WHEN freq >= 45 THEN
+								4 
+								WHEN freq >= 30 THEN
+								3 
+								WHEN freq >= 15 THEN
+								2 
+								WHEN freq >= 0 THEN
+								1 ELSE NULL 
+							END 
+							) AS freqScore 
+						FROM
+							( SELECT UserID, count( ItemID ) AS freq FROM tb2017 WHERE BehaviorType = 'buy' GROUP BY UserID ) AS temp 
+						ORDER BY
+							freqScore DESC 
+						) AS F ON R.UserID = F.UserID 
+					GROUP BY
+						R.UserID 
+					ORDER BY
+					R.recentScore DESC,
+	F.freqScore DESC
+```
+
+部分结果如下：
+
+|UserID|	recentScore|	freqScore|
+|-|-|-|
+|1003412|	4|	2|
+|757556|	4|	2|
+|632292	|4	|2|
+
+
+
 
 
 ## Update Log
